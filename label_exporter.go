@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"io"
 	"io/ioutil"
 	"log"
@@ -210,7 +211,7 @@ func init() {
 func main() {
 	flag.Parse()
 	http.HandleFunc("/", router)
-	http.Handle("/metrics", prometheus.Handler())
+	http.Handle("/metrics", promhttp.Handler())
 	log.Println("Listening on", *listenAddress)
 	log.Printf("My metrics: http://%v/metrics\n", *listenAddress)
 	log.Printf("Proxied metrics: http://%v/<port>/metrics\n", *listenAddress)
